@@ -21,7 +21,15 @@ addMessage("Player " + player + " it is your turn!", "standard");
 // -----------------------------------------------------------------
 
 // TODO: add the setSpot function to be the event to each "spot"
+var spot = document.getElementsByClassName("spot")
+for (var i = 0; i < spot.length; i++) {
+	spot[i].addEventListener("click", setSpot);
+}
 
+var ID = 0;
+function setID(id) {
+	ID = id;
+}
 
 // -----------------------------------------------------------------
 // DOM Interaction
@@ -32,12 +40,13 @@ addMessage("Player " + player + " it is your turn!", "standard");
    HTML board */
 function setSpot() {
 	// TODO: assign id to be the id of the element that got selected
-	var row = getRow(id);
-	var col = getCol(id);
+	var row = getRow(ID);
+	var col = getCol(ID);
 
 	if (board[row][col] === '-') {
 		board[row][col] = player;
 		// TODO: add the player to the HTML board too (this is not the same as the 2D array)
+		document.getElementById(ID).innerHTML = player;
 		
 		validInput = true;
 		moves += 1;
@@ -50,6 +59,10 @@ function setSpot() {
 		if (winner) {
 			addMessage("Congratulations, " + switchPlayer() + " you won!", "endgame");
 			// TODO: remove the event listener from every spot
+			var spot = document.getElementsByClassName("spot")
+			for (var i = 0; i < spot.length; i++) {
+				spot[i].removeEventListener("click", setSpot);
+			}
 		} else if (moves === 9) {
 			addMessage("You both suck, it's a tie!", "endgame");
 		}
@@ -57,7 +70,9 @@ function setSpot() {
 }
 
 function addMessage(message, c) {
-	// change the message and assign the class c to the message paragraph
+	var element = document.getElementById("message");
+    element.classList.add(c);
+    element.innerHTML = message;
 }
 
 
@@ -103,10 +118,14 @@ function isWinner() {
 
 function getRow(id) {
 	// TODO: given the id (a string, return the row)
+	var rowNum = id.substring(0, 1);
+	return parseInt(rowNum);
 }
 
 function getCol(id) {
 	// TODO: given the id (a string, return the col)
+	var colNum = id.substring(1, 2);
+	return parseInt(colNum);
 }
 
 

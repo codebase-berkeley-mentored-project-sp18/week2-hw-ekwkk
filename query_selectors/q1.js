@@ -11,13 +11,32 @@ You can test your function by opening index.html in your browser and viewing the
 */
 
 function getElementsByClassName(strClassName) {
-  //=====================
-  // YOUR CODE HERE
-  //=====================
-  return;
+  var retArray = [];
+  if (document.body.className === strClassName) {
+    retArray.push(document.body);
+  } else if ((document.body.className !== undefined) && (document.body.className.includes(strClassName + " "))) {
+    retArray.push(document.body);
+  }
+  var checkIt = document.body.childNodes;
+  checkIt.forEach(function(element) {
+    retArray = retArray.concat(getHelper(element, strClassName));
+  });
+  return retArray;
 }
 
-
+function getHelper(node, str) {
+  var retArray = [];
+  if (node.className === str) {
+    retArray.push(node);
+  } else if ((node.className !== undefined) && (node.className.includes(str + " "))) {
+    retArray.push(node);
+  }
+  var check = node.childNodes;
+  check.forEach(function(element) {
+    retArray = retArray.concat(getHelper(element, str));
+  });
+  return retArray;
+}
 
 
 
